@@ -1,0 +1,34 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm install -g @cyclonedx/cyclonedx-npm
+  displayName: 'npm install'
+
+- script: |
+    cyclonedx-npm --version
+    cyclonedx-npm --output-file '$(Agent.TempDirectory)/bom.xml'
+  displayName: 'Create BOM'
+
+- task: upload-bom-dtrack-task@1
+  displayName: 'Upload BOM to https://dtrack.example.com/'
+  inputs:
+    bomFilePath: '$(Agent.TempDirectory)/bom.xml'
+    dtrackProjId: '00000000-0000-0000-0000-000000000000'
+    dtrackAPIKey: '$(dtrackAPIKey)'
+    dtrackURI: 'https://dtrack.example.com/'
