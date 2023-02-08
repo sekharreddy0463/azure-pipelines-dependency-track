@@ -20,7 +20,6 @@ steps:
     cyclonedx-npm --output-file '$(Agent.TempDirectory)/bom.xml'
   displayName: 'Create BOM'
 - task: upload-bom-dtrack-task@1
-  displayName: 'Upload BOM to https://dtrack.example.com/'
   inputs:
     bomFilePath: '/home/vsts/work/_temp/bom.xml'
     dtrackProjId: 'd8ab4234-2578-4290-b98c-43a7c5f8acdc'
