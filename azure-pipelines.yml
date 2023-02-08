@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
@@ -19,17 +14,15 @@ steps:
     npm install
     npm install -g @cyclonedx/cyclonedx-npm
   displayName: 'npm install'
+
 - script: |
     cyclonedx-npm --version
     cyclonedx-npm --output-file '$(Agent.TempDirectory)/bom.xml'
   displayName: 'Create BOM'
-- task: CmdLine@2
+- task: upload-bom-dtrack-task@1
+  displayName: 'Upload BOM to https://dtrack.example.com/'
   inputs:
-    script: |
-      - task: upload-bom-dtrack-task@1
-        displayName: 'Upload BOM to https://dtrack.example.com/'
-        inputs:
-          bomFilePath: '/home/vsts/work/_temp/bom.xml'
-          dtrackProjId: 'd8ab4234-2578-4290-b98c-43a7c5f8acdc'
-          dtrackAPIKey: 'OQjOUA2lYlG144Rr6xf6yZ7lWrWLNKdl'
-          dtrackURI: 'http://54.226.185.6:8080/'
+    bomFilePath: '/home/vsts/work/_temp/bom.xml'
+    dtrackProjId: 'd8ab4234-2578-4290-b98c-43a7c5f8acdc'
+    dtrackAPIKey: 'OQjOUA2lYlG144Rr6xf6yZ7lWrWLNKdl'
+    dtrackURI: 'http://54.226.185.6:8080/'
