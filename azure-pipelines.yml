@@ -25,3 +25,4 @@ steps:
     dtrackProjId: 'd8ab4234-2578-4290-b98c-43a7c5f8acdc'
     dtrackAPIKey: 'OQjOUA2lYlG144Rr6xf6yZ7lWrWLNKdl'
     dtrackURI: 'http://54.226.185.6:8080/'
+    caFilePath: 'http://www.apache.org/licenses/'
